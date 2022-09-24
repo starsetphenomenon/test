@@ -1,7 +1,7 @@
 function loadGrain(levels) {
     let counter = 0;
     let min = 0;
-
+    let minInd = 0;
     if (levels[0] > levels[levels.length - 1]) {
         min = levels[levels.length - 1]
         levels.reverse()
@@ -12,6 +12,10 @@ function loadGrain(levels) {
     for (let i = 0; i < levels.length - 1; i++) {
         if (levels[i] >= min) {
             min = levels[i]
+            minInd = i;
+            if (min > levels[levels.length - 1] && !noMoreMin(min, minInd, levels)) {
+                min = levels[levels.length - 1]
+            }
         } else {
             counter += min - levels[i]
             levels[i] += min - levels[i]
@@ -29,3 +33,15 @@ loadGrain([2, 0, 1, 5, 2, 7]) // 6
 loadGrain([2, 4, 2]) // 0
 loadGrain([7, 4]) // 0
 loadGrain([]) // 0
+
+function noMoreMin(min, minInd, arr) {
+    let temp = []
+    let result = false;
+    temp = arr.slice(minInd, arr.length)
+    temp.forEach(el => {
+        if (el > min) {
+            result = true;
+        }
+    })
+    return result;
+}
